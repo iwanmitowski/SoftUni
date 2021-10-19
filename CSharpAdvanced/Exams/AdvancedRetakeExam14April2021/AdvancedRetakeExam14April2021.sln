@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01.WarmWinter", "01.WarmWinter\01.WarmWinter.csproj", "{D70B5752-2896-40F4-8931-78C720117690}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.SuperMario", "02.SuperMario\02.SuperMario.csproj", "{E35B14B8-B182-45A9-8EEE-C5C995CABC87}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D70B5752-2896-40F4-8931-78C720117690}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D70B5752-2896-40F4-8931-78C720117690}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D70B5752-2896-40F4-8931-78C720117690}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D70B5752-2896-40F4-8931-78C720117690}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E35B14B8-B182-45A9-8EEE-C5C995CABC87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E35B14B8-B182-45A9-8EEE-C5C995CABC87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E35B14B8-B182-45A9-8EEE-C5C995CABC87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E35B14B8-B182-45A9-8EEE-C5C995CABC87}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {CAF88124-24C0-4E90-8B04-4470A3596ACD}
+	EndGlobalSection
+EndGlobal
