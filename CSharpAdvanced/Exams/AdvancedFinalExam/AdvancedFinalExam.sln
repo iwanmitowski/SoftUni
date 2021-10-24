@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.31702.278
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "01.Problem", "01.Problem\01.Problem.csproj", "{BC453154-3D58-4F77-95AE-29069609ABB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "02.PawnWars", "02.PawnWars\02.PawnWars.csproj", "{515D2950-EC15-4C53-8A4A-DA70B110851F}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BC453154-3D58-4F77-95AE-29069609ABB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC453154-3D58-4F77-95AE-29069609ABB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC453154-3D58-4F77-95AE-29069609ABB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC453154-3D58-4F77-95AE-29069609ABB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{515D2950-EC15-4C53-8A4A-DA70B110851F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{515D2950-EC15-4C53-8A4A-DA70B110851F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{515D2950-EC15-4C53-8A4A-DA70B110851F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{515D2950-EC15-4C53-8A4A-DA70B110851F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {0C1066CE-477D-412A-BAE7-0B6261658DB4}
+	EndGlobalSection
+EndGlobal
