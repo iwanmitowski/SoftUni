@@ -1,8 +1,8 @@
-function largest(...numbers){
-    let large = Math.max(...numbers);
+function largestNum(...numbers){
+    let largest = Math.max(...numbers);
 
-    console.log(`The largest number is ${large}.`);
+    console.log(`The largest number is ${largest}.`);
 }
 
-largest(1,5,3)
+largestNum(1,5,3);
 
