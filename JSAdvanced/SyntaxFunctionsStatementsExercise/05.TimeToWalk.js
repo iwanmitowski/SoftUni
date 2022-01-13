@@ -8,8 +8,6 @@ function solve(steps, foot, kmh){
     for(let i = 500; i < distanceBasedAdditionalTime; i += 500){
         timeInMins += 1;
     }
-    
-    timeInMins += breakTime;
 
     let hours;
     let minutes;
