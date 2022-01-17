@@ -10,6 +10,10 @@ function solve(input){
 
     for (let i = 0; i < input.length; i++) {
         let turn = turns % 2 == 0 ? 'X' : 'O';
+
+        if (turns == 9) {
+            break;
+        }
         
         let indexes = input[i].split(' ');
         let row = Number(indexes[0]);
@@ -24,9 +28,9 @@ function solve(input){
 
         turns++;
 
-        console.log((!board[0][0] && board[0][0] && board[0][1] == board[0][2] && true));
+        isWin = CheckForWin();
 
-        if (CheckForWin()) {
+        if (isWin) {
             winner = turn;
             break;
         }
@@ -37,6 +41,10 @@ function solve(input){
     }
     else{
         console.log(`Player ${winner} wins!`);
+    }
+
+    for (let i = 0; i < 3; i++) {
+        console.log(board[i].join('\t'))
     }
 
     function CheckForWin(){
@@ -52,29 +60,28 @@ function solve(input){
         // console.log((!board[0][0] && board[0][0] == board[1][1] == board[2][2] && true));
         // console.log((!board[2][0] && board[2][0] == board[1][1] == board[0][2] && true));
 
-         return (!board[0][0] === board[0][0] && board[0][1] && board[0][2] && true) ||
-                (!board[1][0] === board[1][0] && board[1][1] && board[1][2] && true) ||
-                (!board[2][0] === board[2][0] && board[2][1] && board[2][2] && true) ||
+         return (typeof(board[0][0]) !== 'boolean' && (board[0][0] == board[0][1]) && (board[0][1] == board[0][2])) ||
+                (typeof(board[1][0]) !== 'boolean' && (board[1][0] == board[1][1]) && (board[1][1] == board[1][2])) ||
+                (typeof(board[2][0]) !== 'boolean' && (board[2][0] == board[2][1]) && (board[2][1] == board[2][2])) ||
         //Cols
-                (!board[0][0] === board[0][0] && board[1][0] && board[2][0] && true) ||
-                (!board[0][1] === board[0][1] && board[1][1] && board[2][1] && true) ||
-                (!board[0][2] === board[0][2] && board[1][2] && board[2][2] && true) ||
+                (typeof(board[0][0]) !== 'boolean' && (board[0][0] == board[1][0]) && (board[1][0] == board[2][0])) ||
+                (typeof(board[0][1]) !== 'boolean' && (board[0][1] == board[1][1]) && (board[1][1] == board[2][1])) ||
+                (typeof(board[0][2]) !== 'boolean' && (board[0][2] == board[1][2]) && (board[1][2] == board[2][2])) ||
         //Diagonals
-                (!board[0][0] === board[0][0] && board[1][1] && board[2][2] && true) ||
-                (!board[2][0] === board[2][0] && board[1][1] && board[0][2] && true) ||
-                false
+                (typeof(board[0][0]) !== 'boolean' && (board[0][0] == board[1][1]) && (board[1][1] == board[2][2])) ||
+                (typeof(board[2][0]) !== 'boolean' && (board[2][0] == board[1][1]) && (board[1][1] == board[0][2])) 
     }
 }
 
-solve(["0 0",
+solve(["0 1",
 "0 0",
-"1 1",
-"0 1",
-"1 2",
 "0 2",
-"2 2",
+"2 0",
+"1 0",
 "1 2",
+"1 1",
+"2 1",
 "2 2",
-"2 1"]
+"0 0"]
 
 );
