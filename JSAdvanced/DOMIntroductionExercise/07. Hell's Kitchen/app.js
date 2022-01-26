@@ -7,7 +7,6 @@ function solve() {
       let textareaValue = document.querySelector('#inputs textarea').value;
 
       let input = JSON.parse(textareaValue);
-      console.log(input);
 
       let bestRestaurant = {
          name: '',
