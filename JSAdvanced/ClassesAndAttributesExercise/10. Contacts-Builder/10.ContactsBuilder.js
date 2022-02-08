@@ -36,7 +36,7 @@ class Contact{
         btnElement.addEventListener('click', showHideInfo);
 
         this.divTitleElement.appendChild(btnElement);
-        articleElement.append(this.divTitleElement);
+        articleElement.appendChild(this.divTitleElement);
 
         let divInfoElement = document.createElement('div');
         divInfoElement.classList.add('info');
