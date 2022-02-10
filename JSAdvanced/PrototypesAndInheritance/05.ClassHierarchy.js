@@ -1,76 +1,81 @@
-class Figure{
-    #allowedUnits = ['m', 'cm', 'mm'];
-    units = '';
-
-    constructor(){
-        this.units = 'cm';
-    }
-
-    get area(){
-    }
-
-    changeUnits(value){
-        if (this.#allowedUnits.includes(value)) {
-            this.units = value;
+function solve(){
+    class Figure{
+        #allowedUnits = ['m', 'cm', 'mm'];
+        units = '';
+    
+        constructor(){
+            this.units = 'cm';
         }
-    }
-
-    convertUnits(value) {
-
-        if (this.units == 'm') {
-
-            return value /= 100;
-
-        } else if (this.units == 'mm') {
-
-            return value *= 10;
-
+    
+        get area(){
         }
-
-        return value;
-
+    
+        changeUnits(value){
+            if (this.#allowedUnits.includes(value)) {
+                this.units = value;
+            }
+        }
+    
+        convertUnits(value) {
+    
+            if (this.units == 'm') {
+                return value /= 100;
+            } else if (this.units == 'mm') {
+                return value *= 10;
+            }
+    
+            return value;
+        }
+        
+        toString(){
+            return `Figures units: ${this.units}`
+        }
     }
     
-    toString(){
-        return `Figures units: ${this.units}`
+    class Circle extends Figure{
+        constructor(radius){
+            super();
+            this.radius = radius;
+        }
+    
+        get area(){
+            let currentRadius = this.convertUnits(this.radius);
+            return Math.PI * (currentRadius ** 2) ;
+        }
+    
+        toString(){
+            return `Figures units: ${this.units} Area: ${this.area} - radius: ${this.convertUnits(this.radius)}`
+        }
+    }
+    
+    class Rectangle extends Figure{
+        constructor(width, height, units){
+            super();
+            this.width = width;
+            this.height = height;
+            this.changeUnits(units);
+        }
+    
+        get area(){
+            let currentWidth = this.convertUnits(this.width);
+            let currentHeight = this.convertUnits(this.height);
+    
+            return currentWidth * currentHeight;
+        }
+    
+        toString(){
+            return `Figures units: ${this.units} Area: ${this.area} - width: ${this.convertUnits(this.width)}, height: ${this.convertUnits(this.height)}`;
+        }
+    }
+
+    return {
+        Figure,
+        Circle,
+        Rectangle
     }
 }
 
-class Circle extends Figure{
-    constructor(radius){
-        super();
-        this.radius = radius;
-    }
 
-    get area(){
-        this.radius = this.convertUnits(this.radius);
-        return Math.PI * (this.radius ** 2) ;
-    }
-
-    toString(){
-        return `Figures units: ${this.units} Area: ${this.area} - radius: ${this.radius}`
-    }
-}
-
-class Rectangle extends Figure{
-    constructor(width, height, units){
-        super();
-        this.width = width;
-        this.height = height;
-        this.changeUnits(units);
-    }
-
-    get area(){
-        this.width = this.convertUnits(this.width);
-        this.height = this.convertUnits(this.height);
-
-        return this.width * this.height;
-    }
-
-    toString(){
-        return `Figures units: ${this.units} Area: ${this.area} - width: ${this.width}, height: ${this.height}`;
-    }
-}
 
 let c = new Circle(5);
 console.log(c.area); // 78.53981633974483
