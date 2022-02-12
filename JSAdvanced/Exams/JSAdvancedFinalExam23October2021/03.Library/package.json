@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "chai": "^4.3.6",
+    "mocha": "^9.2.0"
+  },
+  "name": "03.library",
+  "version": "1.0.0",
+  "main": "library.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "mocha './{,!(node_modules)/**}*.test.js'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
