@@ -1,0 +1,9 @@
+npm init -y
+npm install mocha chai
+
+const exportedModule = require('./imenafaila');
+const {assert, expect} = require('chai');
+in config:
+"test": "mocha './{,!(node_modules)/**}*.test.js'"
+
+npm test
