@@ -32,7 +32,7 @@ function onNavigate(e){
 async function logout(){
     let user = JSON.parse(localStorage.getItem('user'));
     let res;
-    
+    console.log(user);
     if (user) {
         res = await fetch('http://localhost:3030/users/logout', {
         headers: {

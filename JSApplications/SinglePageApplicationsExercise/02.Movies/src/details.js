@@ -1,23 +1,25 @@
+import { editPage } from "./edit.js";
+import { homePage } from "./home.js";
 import { showView } from "./utils.js";
 
 let section = document.getElementById('movie-example');
+let globalId;
 
 export async function detailsPage(id){
     showView(section);
-
+    globalId = id;
     let user = JSON.parse(localStorage.getItem('user'));
 
-    let [movie, likes, isLikedByUser] = await Promise.all([
-        getMove(id),
+    const [likes, isLikedByUser] = await Promise.all([
         getLikes(id),
-        isLiked(id, user),
-    ])
+        isLiked(id, user)
+    ]);
 
-    section.replaceChildren(await createMovie(id, movie, likes, isLikedByUser, user))
+    section.replaceChildren(await createMovie(id, likes, isLikedByUser, user))
 }
 
-async function createMovie(id, movie, likes, isLikedByUser, user){
-    let m = await getMove(id)
+async function createMovie(id, likes, isLikedByUser, user){
+    let m = await getMovie(id)
 
     let element = document.createElement('div');
     element.className = 'container';
@@ -32,15 +34,25 @@ async function createMovie(id, movie, likes, isLikedByUser, user){
             <div class="col-md-4 text-center">
                 <h3 class="my-3 ">Movie Description</h3>
                 <p>${m.description}</p>
-                ${await generateBtns(movie, user, isLikedByUser)}
+                ${await generateBtns(m, user, isLikedByUser)}
                 <span class="enrolled-span">Liked ${likes}</span>
             </div>
         </div>
     `;
     
-    const likeBtn = element.querySelector('.like-btn');
+    let likeBtn = element.querySelector('.like-btn');
     if (likeBtn) {
-        likeBtn.addEventListener('click', (e) => likeMovie(e, movie._id));
+        likeBtn.addEventListener('click', (e) => likeMovie(e, m._id));
+    }
+
+    let deleteBtn = element.querySelector('.delete-btn');
+    if (deleteBtn) {
+        deleteBtn.addEventListener('click', (e) => deleteMovie(e, m._id))
+    }
+
+    let editBtn = element.querySelector('.edit-btn');
+    if (editBtn) {
+        editBtn.addEventListener('click', openEditPage)
     }
 
     return element;
@@ -52,8 +64,8 @@ async function generateBtns(movie, user, isLikedByUser){
     let controls = [];
 
     if (isOwner) {
-        controls.push('<a class="btn btn-danger" href="#">Delete</a>')
-        controls.push('<a class="btn btn-warning" href="#">Edit</a>')
+        controls.push('<a class="btn btn-danger delete-btn" href="#">Delete</a>')
+        controls.push('<a class="btn btn-warning edit-btn" href="#">Edit</a>')
     }else if( user && isLikedByUser == false) {
         controls.push('<a class="btn btn-primary like-btn" href="#">Like</a>');
     }
@@ -62,7 +74,7 @@ async function generateBtns(movie, user, isLikedByUser){
     return controls.join('');
 }
 
-async function getMove(id){
+async function getMovie(id){
     let res = await fetch(`http://localhost:3030/data/movies/${id}`);
     let movie = await res.json();
 
@@ -70,7 +82,7 @@ async function getMove(id){
 }
 
 async function getLikes(id){
-    let res = await fetch(`http://localhost:3030/data/likes?where=movieId%3D%22${id}%22&distinct=_ownerId&count `);
+    let res = await fetch(`http://localhost:3030/data/likes?where=movieId%3D%22$${id}%22&distinct=_ownerId&count`);
     let likes = await res.json();
 
     return likes;
@@ -89,13 +101,14 @@ async function isLiked(id, user){
 
 async function likeMovie(e, id){
     e.preventDefault();
+
     let data = {
         id
     }
-
+    
     const user = JSON.parse(localStorage.getItem('user'));
 
-    let res = await fetch('http://localhost:3030/data/likes', {
+    await fetch('http://localhost:3030/data/likes', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -105,4 +118,28 @@ async function likeMovie(e, id){
     });
     
     detailsPage(id);
+}
+
+
+async function deleteMovie(e, id){
+    e.preventDefault();
+    
+    const user = JSON.parse(localStorage.getItem('user'));
+
+    let res = await fetch(`http://localhost:3030/data/movies/${id}`, {
+        method: 'delete',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-Authorization': user.accessToken
+        },
+    });
+
+    console.log(res.json());
+    
+    homePage();
+}
+
+async function openEditPage(e){
+    e.preventDefault();
+    editPage(globalId);
 }
