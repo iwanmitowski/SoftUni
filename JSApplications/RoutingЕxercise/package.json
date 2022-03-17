@@ -1,0 +1,11 @@
+{
+  "scripts": {
+    "start": "npm run lite",
+    "lite" : "lite-server"
+  },
+  "dependencies": {
+    "lit-html": "^2.2.1",
+    "lite-server": "^2.6.1",
+    "page": "^1.11.6"
+  }
+}
