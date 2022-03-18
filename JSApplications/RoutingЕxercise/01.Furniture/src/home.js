@@ -1,4 +1,5 @@
 import { html } from "../../node_modules/lit-html/lit-html.js";
+import { getAllData } from "../api/data.js";
 
 import { cardTemplate } from "./templates/CardTemplate.js";
 

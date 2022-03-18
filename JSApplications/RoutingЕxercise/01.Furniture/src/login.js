@@ -30,7 +30,7 @@ export function loginPage(ctx){
 
     async function onSubmit(e){
         e.preventDefault();
-        let formData = new FormData(form);
+        let formData = new FormData(e.target);
         
         let email = formData.get('email');
         let password = formData.get('password');
