@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "lit-html": "^2.2.1",
+    "page": "^1.11.6"
+  }
+}
