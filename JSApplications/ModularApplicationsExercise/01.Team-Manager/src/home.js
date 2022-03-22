@@ -9,11 +9,11 @@ const homeTemplate = html`
                         <p>Want to organize your peers? Create and manage a team for free.</p>
                         <p>Looking for a team to join? Browse our communities and find like-minded people!</p>
                         <a href="/register" class="action cta guest">Sign Up Now</a>
-                        <a href="/teams" class="action cta user">Browse Teams</a>
+                        <a href="/browse" class="action cta user">Browse Teams</a>
                     </div>
                 </article>
             </section>
-            `
+            `;
 
 export function homePage(ctx){
     ctx.render(homeTemplate);

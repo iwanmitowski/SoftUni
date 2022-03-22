@@ -5,6 +5,8 @@ import { loginPage } from "./login.js";
 import { homePage } from "./home.js";
 import { registerPage } from "./register.js";
 import { browsePage } from "./browse.js";
+import { createPage } from "./create.js";
+import { detailsPage } from "./details.js";
 
 const root = document.querySelector('main');
 
@@ -15,6 +17,8 @@ page('/',homePage);
 page('/login', loginPage);
 page('/register', registerPage);
 page('/browse', browsePage);
+page('/create', createPage);
+page('/details/:id', detailsPage);
 updateNav();
 page.start();
 
