@@ -1,0 +1,37 @@
+CREATE DATABASE MINIONS
+
+USE MINIONS
+
+CREATE TABLE Minions
+(
+	Id INT PRIMARY KEY IDENTITY,
+	Name NVARCHAR(255),
+	Age INT,
+)
+
+CREATE TABLE Towns
+(
+	Id INT PRIMARY KEY IDENTITY,
+	Name NVARCHAR(255)
+)
+
+ALTER TABLE Minions
+	  ADD TownId INT
+
+INSERT INTO Towns VALUES
+('Sofia'),
+('Plovdiv'),
+('Varna')
+
+INSERT INTO MINIONS VALUES
+('Kevin' , 22, 1),
+('Bob', 15, 3),
+('Steward', NULL, 2)
+
+SELECT * FROM Minions
+
+TRUNCATE TABLE Minions
+TRUNCATE TABLE Towns
+
+DROP TABLE Minions
+DROP TABLE Towns
