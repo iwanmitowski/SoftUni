@@ -1,0 +1,85 @@
+CREATE DATABASE CarRental2
+
+USE CarRental2
+
+CREATE TABLE Categories
+(
+	Id INT PRIMARY KEY IDENTITY,
+	CategoryName NVARCHAR(30) NOT NULL,
+	DailyRate REAL,
+	WeeklyRate REAL,
+	MonthlyRate REAL,
+	WeekendRate REAL
+)
+
+INSERT INTO Categories VALUES
+('A', NULL, NULL, NULL, NULL),
+('B', NULL, NULL, NULL, NULL),
+('C', NULL, NULL, NULL, NULL)
+
+CREATE TABLE Cars
+(
+	Id INT PRIMARY KEY IDENTITY,
+	PlateNumber NCHAR(10) UNIQUE NOT NULL ,
+	Manufacturer NVARCHAR(10) NOT NULL,
+	Model NVARCHAR(30) NOT NULL,
+	CategoryId INT FOREIGN KEY (Id) REFERENCES Categories,
+	Doors INT NOT NULL,
+	Picture NVARCHAR(30),
+	Condition NVARCHAR(30),
+	Available BIT NOT NULL
+)
+INSERT INTO Cars VALUES
+('1231231234', 'A', 'A', 1, 4, NULL, NULL, 1),
+('1231231235', 'A', 'A', 1, 4, NULL, NULL, 1),
+('1231231236', 'A', 'A', 1, 4, NULL, NULL, 1)
+
+CREATE TABLE Employees
+(
+	Id INT PRIMARY KEY IDENTITY,
+	FirstName NVARCHAR(30) NOT NULL,
+	LastName NVARCHAR(30) NOT NULL,
+	Title NVARCHAR(10) NOT NULL,
+	Notes NVARCHAR(MAX)
+)
+INSERT INTO Employees VALUES
+('A', 'A', 'A', NULL),
+('B', 'A', 'A', NULL),
+('C', 'A', 'A', NULL)
+
+CREATE TABLE Customers
+(
+	Id INT PRIMARY KEY IDENTITY,
+	DriverLicenceNumber INT NOT NULL,
+	FullName NVARCHAR(30) NOT NULL,
+	Address NVARCHAR(30) NOT NULL,
+	City NVARCHAR(30),
+	ZIPCode NVARCHAR(30),
+	Notes NVARCHAR(MAX)
+)
+INSERT INTO Customers VALUES
+(1, 'A A', 'A', NULL, NULL, NULL),
+(1, 'B B', 'B', NULL, NULL, NULL),
+(1, 'C C', 'C', NULL, NULL, NULL)
+
+CREATE TABLE RentalOrders 
+(
+	Id INT PRIMARY KEY IDENTITY,
+	EmployeeId INT FOREIGN KEY (Id) REFERENCES Employees,
+	CustomerId INT FOREIGN KEY (Id) REFERENCES Customers,
+	CarId INT FOREIGN KEY (Id) REFERENCES Cars,
+	TankLevel INT NOT NULL,
+	KilometrageStart INT NOT NULL,
+	KilometrageEnd INT NOT NULL,
+	TotalKilometrage INT NOT NULL,
+	StartDate DATETIME2 NOT NULL,
+	EndDate DATETIME2 NOT NULL,
+	RateApplied REAL,
+	TaxRate REAL,
+	OrderStatus NVARCHAR(10) NOT NULL,
+	Notes NVARCHAR(MAX)
+)
+INSERT INTO RentalOrders VALUES
+(1, 1, 1, 1, 1, 1, 1, GETDATE(), GETDATE(), NULL, NULL, 'Taken', NULL),
+(2, 2, 2, 2, 2, 2, 2, GETDATE(), GETDATE(), NULL, NULL, 'Taken', NULL),
+(3, 3, 3, 3, 3, 3, 3, GETDATE(), GETDATE(), NULL, NULL, 'Taken', NULL)
