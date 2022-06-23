@@ -1,5 +1,6 @@
 ﻿using Microsoft.Data.SqlClient;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -23,7 +24,12 @@ namespace ADO.NET
                 //await Problem01_2(connection);
                 //await Problem02(connection);
                 //await Problem03(connection);
-                await Problem04(connection);
+                //await Problem04(connection);
+                //await Problem05(connection);
+                //await Problem06(connection);
+                //await Problem07(connection);
+                //await Problem08(connection);
+                //await Problem09(connection);
             }
 
             await connection.CloseAsync();
@@ -293,6 +299,189 @@ ORDER BY COUNT(mv.VillainId)";
 
 
             Console.WriteLine($"Successfully added {minionInput[1]} to be minion of {villainInput[1]}.");
+        }
+
+        static async Task Problem05(SqlConnection connection)
+        {
+            var country = Console.ReadLine();
+            await connection.OpenAsync();
+
+            var query = @"UPDATE Towns
+   SET Name = UPPER(Name)
+ WHERE CountryCode = (SELECT c.Id FROM Countries AS c WHERE c.Name = @countryName)";
+            var cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@countryName", country);
+
+            int affectedTowns = await cmd.ExecuteNonQueryAsync();
+
+            if (affectedTowns == 0)
+            {
+                Console.WriteLine("No town names were affected.");
+                return;
+            }
+            else
+            {
+                Console.WriteLine($"{affectedTowns} town names were affected.");
+            }
+
+            query = @" SELECT t.Name 
+   FROM Towns as t
+   JOIN Countries AS c ON c.Id = t.CountryCode
+  WHERE c.Name = @countryName";
+            cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@countryName", country);
+            using var reader = await cmd.ExecuteReaderAsync();
+
+            var townNames = new List<string>();
+
+            using (reader)
+            {
+                while (await reader.ReadAsync())
+                {
+                    var townName = reader.GetString(0);
+                    townNames.Add(townName);
+                }
+            }
+
+            Console.WriteLine($"[{string.Join(", ", townNames)}]");
+        }
+
+        static async Task Problem06(SqlConnection connection)
+        {
+            int villainId = int.Parse(Console.ReadLine());
+            await connection.OpenAsync();
+
+            var query = @"SELECT Name FROM Villains WHERE Id = @villainId";
+            var cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@villainId", villainId);
+
+            string villainName = (string)await cmd.ExecuteScalarAsync();
+
+            if (string.IsNullOrEmpty(villainName))
+            {
+                Console.WriteLine("No such villain was found.");
+                return;
+            }
+
+            query = @"DELETE FROM MinionsVillains 
+      WHERE VillainId = @villainId";
+            cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@villainId", villainId);
+
+            var deletedMinions = await cmd.ExecuteNonQueryAsync();
+
+            Console.WriteLine($"{villainName} was deleted.");
+            Console.WriteLine($"{deletedMinions} minions were released.");
+
+            query = @"DELETE FROM Villains
+      WHERE Id = @villainId";
+            cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@villainId", villainId);
+
+            await cmd.ExecuteNonQueryAsync();
+        }
+
+        static async Task Problem07(SqlConnection connection)
+        {
+            await connection.OpenAsync();
+
+            var ids = Console.ReadLine().Split(" ").Select(int.Parse).ToArray();
+
+            foreach (var id in ids)
+            {
+                var updateQuery = @"UPDATE Minions
+   SET Name = UPPER(LEFT(Name, 1)) + SUBSTRING(Name, 2, LEN(Name)), Age += 1
+ WHERE Id = @Id ";
+                var updateCmd = new SqlCommand(updateQuery, connection);
+                updateCmd.Parameters.AddWithValue("@Id", id);
+                await updateCmd.ExecuteNonQueryAsync();
+            }
+
+            var query = @"SELECT Name, Age FROM Minions";
+            var cmd = new SqlCommand(query, connection);
+            
+            using var reader = await cmd.ExecuteReaderAsync();
+
+            var names = new List<string>();
+
+            using (reader)
+            {
+                while (await reader.ReadAsync())
+                {
+                    var name = reader.GetString(0);
+                    var age = reader.GetInt32(1);
+
+                    Console.WriteLine(name + " " + age);
+                }
+            }
+
+        }
+
+        static async Task Problem08(SqlConnection connection)
+        {
+            await connection.OpenAsync();
+
+            var ids = Console.ReadLine().Split(" ").Select(int.Parse).ToArray();
+
+            foreach (var id in ids)
+            {
+                var updateQuery = @"UPDATE Minions
+   SET Name = UPPER(LEFT(Name, 1)) + SUBSTRING(Name, 2, LEN(Name)), Age += 1
+ WHERE Id = @Id ";
+                var updateCmd = new SqlCommand(updateQuery, connection);
+                updateCmd.Parameters.AddWithValue("@Id", id);
+                await updateCmd.ExecuteNonQueryAsync();
+            }
+
+            var query = @"SELECT Name, Age FROM Minions";
+            var cmd = new SqlCommand(query, connection);
+
+            using var reader = await cmd.ExecuteReaderAsync();
+
+            var names = new List<string>();
+
+            using (reader)
+            {
+                while (await reader.ReadAsync())
+                {
+                    var name = reader.GetString(0);
+                    var age = reader.GetInt32(1);
+
+                    Console.WriteLine(name + " " + age);
+                }
+            }
+
+        }
+
+        static async Task Problem09(SqlConnection connection)
+        {
+            await connection.OpenAsync();
+
+            var id = int.Parse(Console.ReadLine());
+
+            var query = @"EXEC usp_GetOlder @Id";
+            var cmd = new SqlCommand(query, connection);
+            cmd.Parameters.AddWithValue("@Id", id);
+            await cmd.ExecuteNonQueryAsync();
+
+
+            query = @"SELECT Name, Age FROM Minions WHERE Id = @Id";
+            cmd = new SqlCommand(query, connection);
+            using var reader = await cmd.ExecuteReaderAsync();
+
+            var names = new List<string>();
+
+            using (reader)
+            {
+                while (await reader.ReadAsync())
+                {
+                    var name = reader.GetString(0);
+                    var age = reader.GetInt32(1);
+
+                    Console.WriteLine(name + " - " + age + " years old");
+                }
+            }
+
         }
 
     }
