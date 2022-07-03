@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32602.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P01_StudentSystem", "P01_StudentSystem\P01_StudentSystem.csproj", "{D69CC3E0-B462-4009-BB9A-9794B8FE45B4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "P03_FootballBetting", "P03_FootballBetting\P03_FootballBetting.csproj", "{943BCAD9-B001-481B-88C3-8C09BDA2EE15}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{D69CC3E0-B462-4009-BB9A-9794B8FE45B4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D69CC3E0-B462-4009-BB9A-9794B8FE45B4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D69CC3E0-B462-4009-BB9A-9794B8FE45B4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{943BCAD9-B001-481B-88C3-8C09BDA2EE15}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{943BCAD9-B001-481B-88C3-8C09BDA2EE15}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{943BCAD9-B001-481B-88C3-8C09BDA2EE15}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{943BCAD9-B001-481B-88C3-8C09BDA2EE15}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
