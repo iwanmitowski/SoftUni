@@ -10,6 +10,7 @@ namespace P01_StudentSystem.Data.Models
         public int HomeworkId { get; set; }
 
         [Required]
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string Content { get; set; }
 
         public ContentTypeEnum ContentType { get; set; }

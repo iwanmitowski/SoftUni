@@ -13,6 +13,7 @@ namespace P01_StudentSystem.Data.Models
         public string Name { get; set; }
 
         [Required]
+        [Column(TypeName = "VARCHAR(MAX)")]
         public string Url { get; set; }
 
         public ResourceTypeEnum ResourceType { get; set; }

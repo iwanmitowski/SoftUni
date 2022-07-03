@@ -34,18 +34,6 @@ namespace P01_StudentSystem.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Student>()
-                    .Property(e => e.PhoneNumber)
-                    .HasColumnType("CHAR(10)");
-
-            modelBuilder.Entity<Resource>()
-                    .Property(e => e.Url)
-                    .HasColumnType("VARCHAR(MAX)");
-
-            modelBuilder.Entity<Homework>()
-                    .Property(e => e.Content)
-                    .HasColumnType("VARCHAR(MAX)");
-
             modelBuilder.Entity<StudentCourse>()
                     .HasKey(e => new { e.StudentId, e.CourseId });
         }
