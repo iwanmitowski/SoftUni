@@ -13,7 +13,61 @@
         {
             using var db = new BookShopContext();
             // DbInitializer.ResetDatabase(db);
-            Console.WriteLine(GetTotalProfitByCategory(db));
+            Console.WriteLine(RemoveBooks(db));
+        }
+
+        public static int RemoveBooks(BookShopContext context)
+        {
+            var booksForRemove = context.Books.Where(b => b.Copies < 4200).ToList();
+
+            context.Books.RemoveRange(booksForRemove);
+            context.SaveChanges();
+
+            return booksForRemove.Count;
+        }
+
+        public static void IncreasePrices(BookShopContext context)
+        {
+            var books = context.Books
+                    .Where(b => b.ReleaseDate.HasValue && b.ReleaseDate.Value.Year < 2010)
+                    .ToList();
+
+            books.ForEach(b => b.Price += 5);
+
+            context.SaveChanges();
+        }
+
+        public static string GetMostRecentBooks(BookShopContext context)
+        {
+            var categories = context.Categories
+                    .Select(c => new
+                    {
+                        c.Name,
+                        Books = c.CategoryBooks
+                                    .Select(b => new
+                                    {
+                                        b.Book.Title,
+                                        b.Book.ReleaseDate,
+                                    })
+                                    .OrderByDescending(b => b.ReleaseDate)
+                                    .Take(3),
+                    })
+                    .OrderBy(c => c.Name)
+                    .ToList();
+
+            var sb = new StringBuilder();
+
+            foreach (var category in categories)
+            {
+                sb.AppendLine($"--{category.Name}");
+
+                foreach (var book in category.Books)
+                {
+                    sb.AppendLine($"{book.Title} ({book.ReleaseDate.Value.Year})");
+                }
+            }
+
+            return sb.ToString().TrimEnd();
         }
 
         public static string GetTotalProfitByCategory(BookShopContext context)
@@ -143,9 +197,9 @@
             var cateogries = input.Split(" ").Select(s => s.ToLower()).ToArray();
 
             var books = context.Books
-                    .Where(b=> b.BookCategories
+                    .Where(b => b.BookCategories
                                 .Any(bc => b.BookCategories
-                                            .Any(bc => cateogries.Any(c=>c == bc.Category.Name.ToLower()))))
+                                            .Any(bc => cateogries.Any(c => c == bc.Category.Name.ToLower()))))
                     .Select(b => b.Title)
                     .OrderBy(t => t)
                     .ToList();
