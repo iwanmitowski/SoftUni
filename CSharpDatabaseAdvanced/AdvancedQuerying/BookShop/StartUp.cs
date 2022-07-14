@@ -4,6 +4,7 @@
     using Data;
     using Initializer;
     using System;
+    using System.Globalization;
     using System.Linq;
     using System.Text;
 
@@ -169,20 +170,21 @@
 
         public static string GetBooksReleasedBefore(BookShopContext context, string date)
         {
-            var dateTime = DateTime.Parse(date);
-
-            var books = context.Books
-                    .Where(b => b.ReleaseDate.HasValue && b.ReleaseDate < dateTime)
-                    .OrderByDescending(b => b.ReleaseDate)
-                    .Select(b => new
-                    {
-                        b.Title,
-                        b.EditionType,
-                        b.Price,
-                    })
-                    .ToList();
-
             var sb = new StringBuilder();
+
+            var formattedDate = DateTime.ParseExact(date, "dd-MM-yyyy", CultureInfo.InvariantCulture);
+
+            var books = context
+                .Books
+                .Where(b => b.ReleaseDate < formattedDate)
+                .OrderByDescending(b => b.ReleaseDate)
+                .Select(b => new
+                {
+                    Title = b.Title,
+                    EditionType = b.EditionType,
+                    Price = b.Price
+                })
+                .ToList();
 
             foreach (var book in books)
             {
