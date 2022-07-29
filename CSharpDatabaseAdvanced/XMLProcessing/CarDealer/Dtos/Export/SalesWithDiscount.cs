@@ -19,6 +19,6 @@ namespace CarDealer.Dtos.Export
         public decimal Price { get; set; }
 
         [XmlElement("price-with-discount")]
-        public string PriceWithDiscount { get; set; }
+        public decimal PriceWithDiscount { get; set; }
     }
 }
