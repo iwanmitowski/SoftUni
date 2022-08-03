@@ -1,6 +1,6 @@
 ﻿namespace VaporStore.DataProcessor
 {
-	using System;
+    using System;
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -8,11 +8,13 @@
     using Data;
     using Newtonsoft.Json;
     using Microsoft.EntityFrameworkCore;
+    using VaporStore.DataProcessor.Dto.Export;
+    using VaporStore.Data.Models.Enums;
 
     public static class Serializer
-	{
-		public static string ExportGamesByGenres(VaporStoreDbContext context, string[] genreNames)
-		{
+    {
+        public static string ExportGamesByGenres(VaporStoreDbContext context, string[] genreNames)
+        {
             var result = context.Genres
                     .Include(g => g.Games)
                     .ThenInclude(g => g.Developer)
@@ -43,27 +45,68 @@
 
             var res = JsonConvert.SerializeObject(result, Formatting.Indented);
             return res;
-		}
+        }
 
-		public static string ExportUserPurchasesByType(VaporStoreDbContext context, string storeType)
-		{
-			throw new NotImplementedException();
-		}
+        public static string ExportUserPurchasesByType(VaporStoreDbContext context, string storeType)
+        {
+            var result = context.Users
+                    .Include(u => u.Cards)
+                    .ThenInclude(c => c.Purchases)
+                    .ThenInclude(g => g.Game)
+                    .Where(u => u.Cards.Any(c => c.Purchases.Any()))
+                    .ToArray()
+                    .Select(u => new UserExportDto()
+                    {
+                        Username = u.Username,
+                        Purchases = u.Cards
+                            .SelectMany(c => c.Purchases.Where(p => p.Type.ToString().ToLower() == storeType.ToLower()))
+                            .Select(p => new ExportPurchaseDto()
+                            {
+                                Card = p.Card.Number,
+                                Cvc = p.Card.Cvc,
+                                Date = p.Date.ToString("yyyy-MM-dd HH:mm"),
+                                Game = new ExportGameDto()
+                                {
+                                    Title = p.Game.Name,
+                                    Genre = p.Game.Genre.Name,
+                                    Price = p.Game.Price,
+                                }
+                            })
+                            .OrderBy(p => p.Date)
+                            .ToArray(),
+                    })
+                    .ToArray();
 
-		private static string SerializerHelper<T>(T dto, string rootName)
-		{
-			var sb = new StringBuilder();
+            foreach (var user in result)
+            {
+                user.TotalSpent = user.Purchases.Sum(p => p.Game.Price);
+            }
 
-			var xmlRoot = new XmlRootAttribute(rootName);
-			var namespaces = new XmlSerializerNamespaces();
-			namespaces.Add("", "");
+            result = result
+                        .Where(u => u.Purchases.Any())
+                        .OrderByDescending(u => u.TotalSpent)
+                        .ThenBy(u => u.Username)
+                        .ToArray();
 
-			var serializer = new XmlSerializer(typeof(T), xmlRoot);
+            var res = SerializerHelper(result, "Users");
 
-			using var writer = new StringWriter(sb);
-			serializer.Serialize(writer, dto, namespaces);
+            return res; 
+        }
 
-			return sb.ToString().TrimEnd();
-		}
-	}
+        private static string SerializerHelper<T>(T dto, string rootName)
+        {
+            var sb = new StringBuilder();
+
+            var xmlRoot = new XmlRootAttribute(rootName);
+            var namespaces = new XmlSerializerNamespaces();
+            namespaces.Add("", "");
+
+            var serializer = new XmlSerializer(typeof(T), xmlRoot);
+
+            using var writer = new StringWriter(sb);
+            serializer.Serialize(writer, dto, namespaces);
+
+            return sb.ToString().TrimEnd();
+        }
+    }
 }
