@@ -1,0 +1,42 @@
+﻿@model RegisterModel
+@{
+    ViewData["Title"] = "Register";
+}
+
+<h1 class="text-center">@ViewData["Title"]</h1>
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <form id="registerForm" asp-controller="User" asp-action="Register"  method="post">
+            <hr />
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="text-center mb-3">
+                <label>Username</label>
+                <input class="form-control " asp-for="Username" autocomplete="username" aria-required="true" />
+                <span asp-validation-for="@Model.Username" class="text-danger"></span>
+            </div>
+            <div class="text-center mb-3">
+                <label>Email</label>
+                <input class="form-control " asp-for="Email" autocomplete="username" aria-required="true" />
+                <span asp-validation-for="@Model.Email" class="text-danger"></span>
+            </div>
+            <div class="text-center mb-3">
+                <label>Password</label>
+                <input class="form-control" type="password" asp-for="Password" autocomplete="new-password" aria-required="true" />
+                <span asp-validation-for="@Model.Password" class="text-danger"></span>
+            </div>
+            <div class="text-center mb-3">
+                <label>Confirm Password</label>
+                <input class="form-control" type="password" asp-for="ConfirmPassword" autocomplete="new-password" aria-required="true" />
+                <span asp-validation-for="@Model.ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="text-center">
+                <button id="registerSubmit" type="submit" class="btn btn-primary">Register</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
